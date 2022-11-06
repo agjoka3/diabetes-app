@@ -1,19 +1,42 @@
 import { component$, Slot } from '@builder.io/qwik';
+import { Link } from '@builder.io/qwik-city';
 import Header from '../components/header/header';
 
 export default component$(() => {
+
   return (
     <>
       <main>
-        <Header />
         <section>
-          <Slot />
+          <div class="wrapper" style={{height: '500px'}}>
+          <Header />
+        <div class="sidebar" style={{ marginBottom: '30px', height: '450px', border: '1px solid blue', width: '150px', display: 'block', position: 'absolute'}}>
+            <ul>
+        <li>
+          <Link href="/dashboard">
+            Dashboard
+        </Link>
+        </li>
+        <li>
+        <Link href="/nutrition">
+            Nutrition
+        </Link>
+        </li>
+        <li>
+        <Link href="/activity">
+            Activity
+        </Link>
+        </li>
+      </ul>
+        </div>
+
+    <div style={{ marginLeft: '150px', height: '430px', display: 'block', border: '1px solid black', padding: '10px'}}>    
+    <Slot/>
+    </div>
+    </div>
         </section>
       </main>
       <footer>
-        <a href="https://www.builder.io/" target="_blank">
-          Made with ♡ by Builder.io
-        </a>
       </footer>
     </>
   );

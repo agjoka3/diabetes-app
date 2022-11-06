@@ -3,7 +3,7 @@ import { DocumentHead } from "@builder.io/qwik-city";
 
 export default component$(() => {  
   return  <div>
-       <h1>Welcome to Dashboard!</h1>
+       <h3>Welcome to Dashboard!</h3>
   </div>
 });
   export const head: DocumentHead = {
