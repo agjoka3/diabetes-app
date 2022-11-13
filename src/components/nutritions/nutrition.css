@@ -1,0 +1,27 @@
+#nutritions {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#nutritions td,
+#nutritions th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#nutritions tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#nutritions tr:hover {
+  background-color: #ddd;
+}
+
+#nutritions th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #545b59;
+  color: white;
+}

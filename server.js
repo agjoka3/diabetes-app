@@ -1,10 +1,9 @@
-
-const express = require('express');
+const express = require("express");
 const app = express();
 
-app.get('/news', (req, res) => {
-    console.log('Here');
-    res.send('Hi')
+app.get("/news", (req, res) => {
+  console.log("Here");
+  res.send("Hi");
 });
 
-app.listen(3000)
+app.listen(3000);
