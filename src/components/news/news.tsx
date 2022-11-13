@@ -58,15 +58,15 @@ export default component$(() => {
                   height: "200px",
                   overflow: "scroll",
                   overflowX: "hidden",
-                  paddingTop: '20px'
+                  paddingTop: "20px",
                 }}
               >
                 {newsList?.map((news) => {
                   return (
                     <li>
-                      [{news.source.name}] {news.title} 
+                      [{news.source.name}] {news.title}
                       <a target="_blank" href={news.url}>
-                         [details]
+                        [details]
                       </a>
                     </li>
                   );

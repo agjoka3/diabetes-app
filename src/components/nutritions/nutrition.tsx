@@ -23,11 +23,15 @@ export const Nutritions = component$(() => {
 
   useMount$(async () => {
     const colRefUnits = collection(db, "units");
-    (await getDocs(colRefUnits)).forEach((r) => state.units .push(r.data() as Unit));
+    (await getDocs(colRefUnits)).forEach((r) =>
+      state.units.push(r.data() as Unit)
+    );
 
     const colRefFoods = collection(db, "foods");
-    (await getDocs(colRefFoods)).forEach((r) => state.foods.push(r.data() as Food));
-  })
+    (await getDocs(colRefFoods)).forEach((r) =>
+      state.foods.push(r.data() as Food)
+    );
+  });
 
   const nutritionResource: any = useResource$(async () => {
     const colRef = collection(db, "nutrition");
