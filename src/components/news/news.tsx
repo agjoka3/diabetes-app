@@ -1,4 +1,12 @@
-import { component$, useStore, $, useWatch$ } from "@builder.io/qwik";
+import {
+  component$,
+  useStore,
+  $,
+  useWatch$,
+  useResource$,
+  Resource,
+  ResourceReturn,
+} from "@builder.io/qwik";
 import { NEWS_API_KEY } from "~/keys";
 import { NewsModel } from "./news.model";
 
@@ -9,34 +17,28 @@ export default component$(() => {
   });
 
   const searchChanged = $(() => {
-    fetch(
+    return fetch(
       `https://newsapi.org/v2/everything?q='diabetes ${state.searchValue}'&from=2022-11-09&to=2022-11-09&sortBy=popularity&apiKey=${NEWS_API_KEY}`
     )
       .then((res) => res.json())
       .then((res: { articles: NewsModel[] }) => {
         state.newsList = res.articles;
-        console.log("CHECK : ", res);
+        return res.articles;
       })
       .catch(console.log);
   });
 
-  useWatch$(({ track }) => {
-    console.log("Use watch!!");
+  const newsResource = useResource$(({ track }) => {
     track(() => state.searchValue);
-    searchChanged();
-    const timer = setTimeout(() => {
-      console.log("POP: ", state.searchValue);
-      // searchChanged();
-    }, 200);
-    return () => {
-      clearTimeout(timer);
-    };
+    return searchChanged();
   });
 
   return (
     <div>
       <div class="topnav">
         <input
+          style={{ width: "300px" }}
+          placeholder="Search news here"
           value={state.searchValue}
           onInput$={(event) =>
             (state.searchValue = (event.target as HTMLInputElement).value)
@@ -44,18 +46,38 @@ export default component$(() => {
         />
       </div>
 
-      <div>
-        {(state.newsList || []).map((news: NewsModel) => {
-          // TODO: Refactor in a new component
-          return (
-            <div>
-              <li>
-                [{news.source.name}] {news.title}
-              </li>
-            </div>
-          );
-        })}
-      </div>
+      {
+        <Resource
+          value={newsResource as ResourceReturn<NewsModel[]>}
+          onPending={() => <>Loading...</>}
+          onRejected={(error) => <>Error: {error.message}</>}
+          onResolved={(newsList: NewsModel[]) => {
+            return (
+              <div
+                style={{
+                  height: "200px",
+                  overflow: "scroll",
+                  overflowX: "hidden",
+                  paddingTop: '20px'
+                }}
+              >
+                {newsList?.map((news) => {
+                  return (
+                    <li>
+                      [{news.source.name}] {news.title} 
+                      <a target="_blank" href={news.url}>
+                         [details]
+                      </a>
+                    </li>
+                  );
+                })}
+              </div>
+            );
+          }}
+        />
+      }
+      <p>Add Reminders Here</p>
+      <p>Add Other Modules in Tabs Here</p>
     </div>
   );
 });

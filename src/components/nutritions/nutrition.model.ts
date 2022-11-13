@@ -1,6 +1,6 @@
 export interface Nutrition {
   calories: number;
-  dateConsumed: string;
+  dateConsumed: Date;
   foodId: string;
   food: string;
   meal: string;

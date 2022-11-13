@@ -7,7 +7,7 @@ export default component$(() => {
     <>
       <main>
         <section>
-          <div class="wrapper" style={{ height: "500px" }}>
+          <div style={{ height: "500px" }}>
             <Header />
             <div
               class="sidebar"
@@ -36,10 +36,10 @@ export default component$(() => {
             <div
               style={{
                 marginLeft: "150px",
-                height: "430px",
+                height: "450px",
                 display: "block",
                 border: "1px solid black",
-                padding: "10px",
+                padding: "0 10px",
               }}
             >
               <Slot />

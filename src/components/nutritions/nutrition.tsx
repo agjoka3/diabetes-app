@@ -1,14 +1,12 @@
 import {
   component$,
   Resource,
+  useMount$,
   useResource$,
   useStore,
   useStylesScoped$,
 } from "@builder.io/qwik";
-import {
-  collection,
-  getDocs,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import db from "~/firebase";
 import { Unit } from "../models/unit.model";
 import { Food } from "./food.model";
@@ -23,22 +21,13 @@ export const Nutritions = component$(() => {
     units: [] as Unit[],
   });
 
+  useMount$(async () => {
+    const colRefUnits = collection(db, "units");
+    (await getDocs(colRefUnits)).forEach((r) => state.units .push(r.data() as Unit));
 
-  // TODO: Check if can be removed in useMount
-  useResource$(async () => {
-    const colRef = collection(db, "units");
-    const res = await getDocs(colRef);
-    res.forEach((r) => state.units.push(r.data() as Unit));
-    return state.units;
-  });
-
-  // TODO: Check if can be removed in useMount
-  const foodResource = useResource$(async () => {
-    const colRef = collection(db, "foods");
-    const res = await getDocs(colRef);
-    res.forEach((r) => state.foods.push(r.data() as Food));
-    return state.foods;
-  });
+    const colRefFoods = collection(db, "foods");
+    (await getDocs(colRefFoods)).forEach((r) => state.foods.push(r.data() as Food));
+  })
 
   const nutritionResource: any = useResource$(async () => {
     const colRef = collection(db, "nutrition");
@@ -58,26 +47,13 @@ export const Nutritions = component$(() => {
   // TODO: Add new Food
   return (
     <div>
-      
       <p>Add new food</p>
-      {
-        <Resource
-          value={foodResource}
-          onPending={() => <>Loading...</>}
-          onRejected={(error) => <>Error: {error.message}</>}
-          onResolved={(repos: Food[]) => {
-            const listItems = repos.map((d) => <li key={d.id}>{d.name}</li>);
-            return <div></div>;
-          }}
-        />
-      }
       <p>List of foods consumed</p>
       <Resource
         value={nutritionResource}
         onPending={() => <>Loading...</>}
         onRejected={(error) => <>Error: {error.message}</>}
         onResolved={(repos: Nutrition[]) => {
-          // const listItems = repos.map((d) => <li key={d.unitId}>{d.meal}</li>);
           return (
             <div>
               <table id="nutritions" style={{ width: 700 }}>
