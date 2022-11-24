@@ -5,16 +5,16 @@ import {
   useResource$,
   Resource,
   ResourceReturn,
- } from "@builder.io/qwik";
- import { NEWS_API_KEY } from "~/keys";
- import { NewsModel } from "./news.model";
-  
- export default component$(() => {
+} from "@builder.io/qwik";
+import { NEWS_API_KEY } from "~/keys";
+import { NewsModel } from "./news.model";
+
+export default component$(() => {
   const state = useStore({
     searchValue: "",
     newsList: [] as NewsModel[],
   });
-  
+
   const searchChanged = $(() => {
     return fetch(
       `https://newsapi.org/v2/everything?q='diabetes ${state.searchValue}'&from=2022-11-09&to=2022-11-09&sortBy=popularity&apiKey=${NEWS_API_KEY}`
@@ -26,12 +26,12 @@ import {
       })
       .catch(console.log);
   });
-  
+
   const newsResource = useResource$(({ track }) => {
     track(() => state.searchValue);
     return searchChanged();
   });
-  
+
   return (
     <div>
       <div class="topnav">
@@ -44,7 +44,7 @@ import {
           }
         />
       </div>
-  
+
       {
         <Resource
           value={newsResource as ResourceReturn<NewsModel[]>}
@@ -79,6 +79,4 @@ import {
       <p>Add Other Modules in Tabs Here</p>
     </div>
   );
- });
-  
- 
+});

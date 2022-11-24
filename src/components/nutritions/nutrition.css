@@ -25,3 +25,8 @@
   background-color: #545b59;
   color: white;
 }
+
+input,
+label {
+  display: block;
+}

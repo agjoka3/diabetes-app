@@ -5,11 +5,10 @@ export interface Activity {
   time: number;
   timeUnitId: string;
   userId: string;
-  date: number
- }
-  
- export type ActivityRow = Activity & {
+  date: number;
+}
+
+export type ActivityRow = Activity & {
   exercise: string;
   unit: string;
- };
- 
+};
