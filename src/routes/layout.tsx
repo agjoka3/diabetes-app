@@ -22,7 +22,7 @@ export default component$(() => {
             >
               <ul>
                 <li>
-                  <Link href="/dashboard">Dashboard</Link>
+                  <Link href="/">Dashboard</Link>
                 </li>
                 <li>
                   <Link href="/nutrition">Nutrition</Link>
