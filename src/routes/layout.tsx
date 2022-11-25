@@ -30,6 +30,13 @@ export default component$(() => {
                 <li>
                   <Link href="/activity">Activity</Link>
                 </li>
+                <li>
+                  <p>Measurements</p>
+                  <ul>
+                    <li><Link href="/measurement/weight">Weight</Link></li>
+                    <li><Link href="/measurement/blood-sugar">Blood Sugar</Link></li>
+                  </ul>
+                </li>
               </ul>
             </div>
 
