@@ -1,14 +1,14 @@
 import { component$ } from "@builder.io/qwik";
 import { DocumentHead } from "@builder.io/qwik-city";
-import Login from "~/components/login/login";
+import Register from "~/components/register/register";
 
 export default component$(() => {
   return (
     <div>
-      <Login></Login>
+      <Register></Register>
     </div>
   );
 });
 export const head: DocumentHead = {
-  title: "Login",
+  title: "Register",
 };
