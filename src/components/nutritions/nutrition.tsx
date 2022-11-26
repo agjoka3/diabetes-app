@@ -8,11 +8,11 @@ import {
   useStylesScoped$,
 } from "@builder.io/qwik";
 import { addDoc, collection, getDocs } from "firebase/firestore";
-import db from "~/firebase";
 import { Unit } from "../models/unit.model";
 import { Food } from "./food.model";
 import { Nutrition, NutritionRow } from "./nutrition.model";
 import styles from "./nutrition.css?inline";
+import { db } from "~/firebase";
 
 export const Nutritions = component$(() => {
   useStylesScoped$(styles);
