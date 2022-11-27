@@ -17,10 +17,10 @@ export default component$(() => {
   const setPassword = $((value: string) => {
     state.password = value;
   });
-  
+
   const authWithEmail = $(async () => {
     await logInWithEmailAndPassword(state.email, state.password);
-  })
+  });
 
   const googleSignIn = $(() => signInWithGoogle());
 
@@ -41,10 +41,7 @@ export default component$(() => {
           onChange$={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
-        <button
-          className="login__btn"
-          onClick$={() => authWithEmail}
-        >
+        <button className="login__btn" onClick$={() => authWithEmail}>
           Login
         </button>
         <button
@@ -53,7 +50,7 @@ export default component$(() => {
         >
           Login with Google
         </button>
-{/*         <div> TODO: Implement later
+        {/*         <div> TODO: Implement later
           <Link href="/reset">Forgot Password</Link>
         </div> */}
         <div>

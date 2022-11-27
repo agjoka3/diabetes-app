@@ -37,7 +37,6 @@ export const Nutritions = component$(() => {
         : target.value;
     const name: "selectedFood" | "quantity" | "unit" | "meal" = target.name;
     state[name] = value;
-
   });
 
   useMount$(async () => {
