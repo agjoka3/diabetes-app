@@ -16,7 +16,6 @@ import {
   sendPasswordResetEmail,
   signOut,
 } from "firebase/auth";
-import { $ } from "@builder.io/qwik";
 
 // TODO Get info from env
 const firebaseConfig = {
@@ -35,7 +34,7 @@ const db = getFirestore(app);
 
 const googleProvider = new GoogleAuthProvider();
 
-const signInWithGoogle = $(async () => {
+const signInWithGoogle = async () => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
     const user = res.user;
@@ -53,18 +52,18 @@ const signInWithGoogle = $(async () => {
     console.error(err);
     alert(err.message);
   }
-});
+};
 
-const logInWithEmailAndPassword = $(async (email, password) => {
+const logInWithEmailAndPassword = async (email, password) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
   } catch (err) {
     console.error(err);
     alert(err.message);
   }
-});
+};
 
-const registerWithEmailAndPassword = $(async (name, email, password) => {
+const registerWithEmailAndPassword = async (name, email, password) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
@@ -78,9 +77,9 @@ const registerWithEmailAndPassword = $(async (name, email, password) => {
     console.error(err);
     alert(err);
   }
-});
+};
 
-const sendPasswordReset = $(async (email) => {
+const sendPasswordReset = async (email) => {
   try {
     await sendPasswordResetEmail(auth, email);
     alert("Password reset link sent!");
@@ -88,11 +87,11 @@ const sendPasswordReset = $(async (email) => {
     console.error(err);
     alert(err.message);
   }
-});
+};
 
-const logout = $(() => {
+const logout = () => {
   signOut(auth);
-});
+};
 
 export {
   auth,

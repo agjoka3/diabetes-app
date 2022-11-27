@@ -8,7 +8,7 @@ import {
   $,
 } from "@builder.io/qwik";
 import { addDoc, collection, getDocs } from "firebase/firestore";
-import db from "~/firebase";
+import { db } from "~/firebase";
 import { Unit } from "../models/unit.model";
 import { Activity, ActivityRow } from "./activity.model";
 import { Exercise } from "./exercise.model";
@@ -64,7 +64,7 @@ export const Activities = component$(() => {
         time: state.exerciseLength,
         timeUnitId: "mpxXv1SsnDx334cNs351", // default to min
         userId: " TUJztX9XaaIsM7EiEZp3", // TODO: set user id,
-        date: state.exerciseDate.getMilliseconds(),
+        date: state.exerciseDate.valueOf(),
       });
     } catch (err) {
       alert(err);

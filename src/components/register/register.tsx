@@ -1,7 +1,7 @@
 import { component$, useStore, useStylesScoped$, $ } from "@builder.io/qwik";
 import styles from "./register.css?inline";
 import { Link } from "@builder.io/qwik-city";
-import { registerWithEmailAndPassword } from "~/firebase";
+import { registerWithEmailAndPassword, signInWithGoogle } from "~/firebase";
 
 export default component$(() => {
   useStylesScoped$(styles);
@@ -22,11 +22,11 @@ export default component$(() => {
   const setPassword = $((value: string) => {
     state.password = value;
   });
+
   // TODO: Add Validation
-  const register = $(() => {
-    alert('Registering user')
-     $(() => registerWithEmailAndPassword(state.name, state.email, state.password));
-  });
+
+  const registerWithEmail = $(() => registerWithEmailAndPassword(state.name, state.email, state.password));
+
   return (
     <div className="register">
     <div className="register__container">
@@ -52,12 +52,12 @@ export default component$(() => {
         placeholder="Password"
       />
       <button className="register__btn" 
-        onClick$={register}>
+        onClick$={() => registerWithEmail}>
         Register
-      </button>
+      </button> 
       <button
         className="register__btn register__google"
-       // onClick$={() => $(signInWithGoogle)}
+        onClick$={$(signInWithGoogle)}
       >
         Register with Google
       </button>

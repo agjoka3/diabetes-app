@@ -1,8 +1,7 @@
 import { component$, useStore, useStylesScoped$, $ } from "@builder.io/qwik";
 import styles from "./login.css?inline";
 import { Link } from "@builder.io/qwik-city";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, signInWithGoogle, logInWithEmailAndPassword } from "~/firebase";
+import { logInWithEmailAndPassword, signInWithGoogle } from "~/firebase";
 
 export default component$(() => {
   useStylesScoped$(styles);
@@ -18,7 +17,12 @@ export default component$(() => {
   const setPassword = $((value: string) => {
     state.password = value;
   });
-  //const authWithEmail = (() => logInWithEmailAndPassword(state.email, state.password))
+  
+  const authWithEmail = $(async () => {
+    await logInWithEmailAndPassword(state.email, state.password);
+  })
+
+  const googleSignIn = $(() => signInWithGoogle());
 
   return (
     <div className="login">
@@ -39,19 +43,19 @@ export default component$(() => {
         />
         <button
           className="login__btn"
-          // onClick$={() => $(authWithEmail)} FIXME
+          onClick$={() => authWithEmail}
         >
           Login
         </button>
         <button
           className="login__btn login__google"
-          onClick$={() => $(signInWithGoogle)}
+          onClick$={() => googleSignIn}
         >
           Login with Google
         </button>
-        <div>
+{/*         <div> TODO: Implement later
           <Link href="/reset">Forgot Password</Link>
-        </div>
+        </div> */}
         <div>
           Don't have an account? <Link href="/register">Register</Link> now.
         </div>

@@ -37,7 +37,7 @@ export const Nutritions = component$(() => {
         : target.value;
     const name: "selectedFood" | "quantity" | "unit" | "meal" = target.name;
     state[name] = value;
-    console.log("Updated state: ", JSON.parse(JSON.stringify(state)));
+
   });
 
   useMount$(async () => {
@@ -68,8 +68,8 @@ export const Nutritions = component$(() => {
         quantity: state.quantity,
         meal: state.meal,
         unitId: state.unit, // default to min
-        userId: " TUJztX9XaaIsM7EiEZp3", // TODO: set user id,
-        date: state.date.getMilliseconds(),
+        userId: "TUJztX9XaaIsM7EiEZp3", // TODO: set user id,
+        date: state.date.valueOf(),
       });
     } catch (err) {
       alert(err);
