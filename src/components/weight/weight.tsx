@@ -8,7 +8,7 @@ export default component$(() => {
   useStylesScoped$(styles);
   const state = useStore({
     weight: undefined,
-    date: undefined,
+    mDate: undefined,
     weightList: [] as Measurement[],
   });
 
@@ -17,14 +17,14 @@ export default component$(() => {
     const value = target.type === "date"
         ? new Date(target.value).valueOf()
         : target.value;
-    const name: "weight" | "date" = target.name;
+    const name: "weight" | "mDate" = target.name;
     state[name] = value;
   });
 
   const submitWeight = $(async () => {
     try {
       await addDoc(collection(db, "measurement"), {
-        mDate: state.date,
+        mDate: state.mDate,
         value: Number(state.weight),
         userId: "TUJztX9XaaIsM7EiEZp3", // TODO: set user id
         measurement: 'Weight'
@@ -61,13 +61,13 @@ export default component$(() => {
       />
     </div>
     <div style="float:left;margin-right:10px; margin-bottom: 20px">
-      <label style="font-size: 12px" for="date">
+      <label style="font-size: 12px" for="mDate">
         Date
       </label>
       <input
         type="date"
         id="mDate"
-        value={new Date(state?.date ?? 0).toISOString()}
+        value={new Date(state?.mDate ?? 0).toISOString()}
         name="mDate"
         onChange$={handleInputChange}
       />
