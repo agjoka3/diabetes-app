@@ -44,7 +44,7 @@ export default component$(() => {
     const res = await getDocs(colRef);
 
     res.forEach((r) => {
-     state.weightList.push(r.data() as Measurement);
+      state.weightList.push(r.data() as Measurement);
     });
 
     return state.weightList;
@@ -52,41 +52,6 @@ export default component$(() => {
 
   return (
     <div>
-      <form>
-        <div style="float:left;margin-right:10px; margin-bottom: 20px">
-          <label style="font-size: 12px" for="weight">
-            Weight in kg
-          </label>
-          <input
-            style="width: 80px"
-            type="number"
-            id="weight"
-            value={state.weight}
-            name="weight"
-            onChange$={handleInputChange}
-          />
-        </div>
-        <div style="float:left;margin-right:10px; margin-bottom: 20px">
-          <label style="font-size: 12px" for="mDate">
-            Date
-          </label>
-          <input
-            type="date"
-            id="mDate"
-            value={new Date(state.mDate).toISOString().substring(0, 10)}
-            name="mDate"
-            onChange$={handleInputChange}
-          />
-        </div>
-        <div style="float: rigth, border: 1px solid black; width: 30px">
-          <button
-            onClick$={submitWeight}
-            style={"background: white;  border: none;"}
-          >
-            Submit
-          </button>
-        </div>
-      </form>
       <Resource
         value={weightResource}
         onPending={() => <>Loading...</>}
@@ -94,6 +59,41 @@ export default component$(() => {
         onResolved={(repos: Measurement[]) => {
           return (
             <div>
+              <form>
+                <div style="float:left;margin-right:10px; margin-bottom: 20px">
+                  <label style="font-size: 12px" for="weight">
+                    Weight in kg
+                  </label>
+                  <input
+                    style="width: 80px"
+                    type="number"
+                    id="weight"
+                    value={state.weight}
+                    name="weight"
+                    onChange$={handleInputChange}
+                  />
+                </div>
+                <div style="float:left;margin-right:10px; margin-bottom: 20px">
+                  <label style="font-size: 12px" for="mDate">
+                    Date
+                  </label>
+                  <input
+                    type="date"
+                    id="mDate"
+                    value={new Date(state.mDate).toISOString().substring(0, 10)}
+                    name="mDate"
+                    onChange$={handleInputChange}
+                  />
+                </div>
+                <div style="float: rigth, border: 1px solid black; width: 30px">
+                  <button
+                    onClick$={submitWeight}
+                    style={"background: white;  border: none;"}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
               <table id="weight" style={{ width: 700 }}>
                 <thead>
                   <tr>
