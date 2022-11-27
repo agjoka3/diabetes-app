@@ -134,7 +134,7 @@ export const Activities = component$(() => {
                 <input
                   type="date"
                   id="exerciseDate"
-                  value={state.exerciseDate.toString()}
+                  value={state.exerciseDate.toISOString().substring(0, 10)}
                   name="exerciseDate"
                   onChange$={handleInputChange}
                 />

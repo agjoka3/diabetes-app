@@ -157,7 +157,7 @@ export const Nutritions = component$(() => {
                 <input
                   type="date"
                   id="date"
-                  value={state.date.toString()}
+                  value={state.date.toISOString().substring(0, 10)}
                   name="date"
                   onChange$={handleInputChange}
                 />
