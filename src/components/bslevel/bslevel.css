@@ -1,0 +1,32 @@
+#bslevel {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#bslevel td,
+#bslevel th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#bslevel tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#bslevel tr:hover {
+  background-color: #ddd;
+}
+
+#bslevel th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #545b59;
+  color: white;
+}
+
+input,
+label {
+  display: block;
+}
