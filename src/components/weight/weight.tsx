@@ -86,8 +86,6 @@ export default component$(() => {
         onPending={() => <>Loading...</>}
         onRejected={(error) => <>Error: {error.message}</>}
         onResolved={(repos: Measurement[]) => {
-          // TODO Check repos is undefined
-          console.log('Repos: ', repos);
           return (
             <div>
               <table id="weight" style={{ width: 700 }}>
@@ -98,7 +96,7 @@ export default component$(() => {
                   </tr>
                 </thead>
                 <tbody>
-                  {(state.weightList  || []).map((repo) => {
+                  {(repos || []).map((repo) => {
                     return (
                       <tr>
                         <td>{repo.value}</td>
