@@ -1,6 +1,6 @@
 export interface Nutrition {
   calories: number;
-  dateConsumed: Date;
+  date: number;
   foodId: string;
   food: string;
   meal: string;
@@ -13,4 +13,5 @@ export interface Nutrition {
 export type NutritionRow = Nutrition & {
   food: string;
   unit: string;
+  id: string;
 };

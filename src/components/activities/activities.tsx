@@ -7,7 +7,13 @@ import {
   useStylesScoped$,
   $,
 } from "@builder.io/qwik";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { db } from "~/firebase";
 import { Unit } from "../models/unit.model";
 import { Activity, ActivityRow } from "./activity.model";
@@ -23,6 +29,7 @@ export const Activities = component$(() => {
     exercise: undefined,
     exerciseLength: undefined,
     exerciseDate: new Date(),
+    submitActivity: 0
   });
 
   const handleInputChange = $((event: any) => {
@@ -51,6 +58,7 @@ export const Activities = component$(() => {
   });
 
   const submitActivity = $(async () => {
+    state.submitActivity += 1;
     try {
       const exerciseCalories = state.exercises.find(
         (e) => e.id === state.exercise
@@ -71,9 +79,11 @@ export const Activities = component$(() => {
     }
   });
 
-  const activityResource: any = useResource$(async () => {
+  const activityResource: any = useResource$(async ( {track} ) => {
+    track(() => state.submitActivity);
     const colRef = collection(db, "activity");
-    const res = await getDocs(colRef);
+    const res = await getDocs(query(colRef, orderBy("date", "desc")));
+    const data = [] as ActivityRow[];
     res.forEach((r) => {
       const activity = r.data() as Activity;
       const exercise = String(
@@ -82,21 +92,20 @@ export const Activities = component$(() => {
       const unit = String(
         state.units.find((u) => u.id == activity.timeUnitId)?.unit
       );
-      state.activities.push({ ...activity, exercise, unit });
+      data.push({ ...activity, exercise, unit });
     });
-    return state.activities;
+    return data;
   });
   // TODO: Add new Activity
   return (
     <div>
-      <p>Add new activity</p>
       <Resource
         value={activityResource}
-        onPending={() => <>Loading...</>}
+        onPending={() => <></>}
         onRejected={(error) => <>Error: {error.message}</>}
         onResolved={() => {
           return (
-            <form>
+            <>
               <div style="float:left;margin-right:20px; margin-bottom: 20px">
                 <label style="font-size: 12px" for="exercise">
                   Type
@@ -139,27 +148,25 @@ export const Activities = component$(() => {
                   onChange$={handleInputChange}
                 />
               </div>
-              <div style="float: rigth, border: 1px solid black; width: 30px">
+              <div style="float: right, border: 1px solid black; width: 30px">
                 <button
                   onClick$={submitActivity}
                   style={"background: white;  border: none;"}
                 >
                   Submit
                 </button>
-                {/* <i class="fa fa-paper-plane"></i> */}
               </div>
-            </form>
+            </>
           );
         }}
-      />
-
+      ></Resource>
       <Resource
         value={activityResource}
         onPending={() => <>Loading...</>}
         onRejected={(error) => <>Error: {error.message}</>}
         onResolved={(repos: ActivityRow[]) => {
           return (
-            <div>
+            <div style={{ maxHeight: "250px", overflow: "scroll" }}>
               <table id="acitivity" style={{ width: 700 }}>
                 <thead>
                   <tr>
@@ -178,7 +185,9 @@ export const Activities = component$(() => {
                           {repo.time} {repo.unit}
                         </td>
                         <td>{repo.calories}</td>
-                        <td>{new Date(repo.date).toString()}</td>
+                        <td>
+                          {new Date(repo.date).toISOString().substring(0, 10)}
+                        </td>
                       </tr>
                     );
                   })}

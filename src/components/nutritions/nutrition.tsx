@@ -7,7 +7,13 @@ import {
   $,
   useStylesScoped$,
 } from "@builder.io/qwik";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { Unit } from "../models/unit.model";
 import { Food } from "./food.model";
 import { Nutrition, NutritionRow } from "./nutrition.model";
@@ -25,6 +31,7 @@ export const Nutritions = component$(() => {
     unit: undefined,
     meal: undefined,
     date: new Date(),
+    submitNutrition: 0
   });
 
   const handleInputChange = $((event: any) => {
@@ -55,6 +62,7 @@ export const Nutritions = component$(() => {
   });
 
   const submitNutrition = $(async () => {
+    state.submitNutrition += 1;
     try {
       const foodCalories = state.foods.find((e) => e.id === state.selectedFood);
       const calories =
@@ -75,9 +83,12 @@ export const Nutritions = component$(() => {
     }
   });
 
-  const nutritionResource: any = useResource$(async () => {
+  const nutritionResource: any = useResource$(async ({track}) => {
+    track(() => state.submitNutrition);
+
     const colRef = collection(db, "nutrition");
-    const res = await getDocs(colRef);
+    const res = await getDocs(query(colRef, orderBy("date", "desc")));
+    const data = [] as NutritionRow[];
     res.forEach((r) => {
       const nutrition = r.data() as Nutrition;
       const food = String(
@@ -86,21 +97,20 @@ export const Nutritions = component$(() => {
       const unit = String(
         state.units.find((u) => u.unit == nutrition.unitId)?.unit
       );
-      state.nutritions.push({ ...nutrition, food, unit });
+      data.push({ ...nutrition, food, unit, id: r.id  });
     });
-    return state.nutritions;
+    return data
   });
   // TODO: Add new Food
   return (
     <div>
-      <p>Add new food</p>
       <Resource
         value={nutritionResource}
-        onPending={() => <>Loading...</>}
+        onPending={() => <></>}
         onRejected={(error) => <>Error: {error.message}</>}
         onResolved={() => {
           return (
-            <form>
+            <>
               <div style="float:left;margin-right:10px; margin-bottom: 20px">
                 <label style="font-size: 12px" for="food">
                   Food
@@ -182,23 +192,23 @@ export const Nutritions = component$(() => {
               <div style="float: rigth, border: 1px solid black; width: 30px">
                 <button
                   onClick$={submitNutrition}
+                  type="submit"
                   style={"background: white;  border: none;"}
                 >
                   Submit
                 </button>
               </div>
-            </form>
+              </>
           );
         }}
       />
-      <p>List of foods consumed</p>
       <Resource
         value={nutritionResource}
         onPending={() => <>Loading...</>}
         onRejected={(error) => <>Error: {error.message}</>}
-        onResolved={(repos: Nutrition[]) => {
+        onResolved={(repos: NutritionRow[]) => {
           return (
-            <div>
+            <div style={{ maxHeight: "190px", overflow: "scroll" }}>
               <table id="nutritions" style={{ width: 700 }}>
                 <thead>
                   <tr>
@@ -212,7 +222,7 @@ export const Nutritions = component$(() => {
                 <tbody>
                   {repos.map((repo) => {
                     return (
-                      <tr>
+                      <tr key={repo.id}>
                         <td>{repo.food}</td>
                         <td>{repo.quantity}</td>
                         <td>{repo.unit}</td>

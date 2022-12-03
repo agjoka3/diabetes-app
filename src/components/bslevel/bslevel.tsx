@@ -7,7 +7,13 @@ import {
   Resource,
 } from "@builder.io/qwik";
 import styles from "./bslevel.css?inline";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { db } from "~/firebase";
 import { Measurement } from "../models/measurement.model";
 
@@ -16,7 +22,7 @@ export default component$(() => {
   const state = useStore({
     bslevel: undefined,
     mDate: new Date().valueOf(),
-    bloodSugarList: [] as Measurement[],
+    submitLevel: 0
   });
 
   const handleInputChange = $((event: any) => {
@@ -28,6 +34,7 @@ export default component$(() => {
   });
 
   const submit = $(async () => {
+    state.submitLevel += 1;
     try {
       await addDoc(collection(db, "bslevel"), {
         mDate: state.mDate,
@@ -39,15 +46,16 @@ export default component$(() => {
     }
   });
 
-  const resource: any = useResource$(async () => {
+  const resource: any = useResource$(async ( {track} ) => {
+    track(() => state.submitLevel);
     const colRef = collection(db, "bslevel");
-    const res = await getDocs(colRef);
-
+    const res = await getDocs(query(colRef, orderBy("mDate", "desc")));
+    const data = [] as Measurement[];
     res.forEach((r) => {
-      state.bloodSugarList.push(r.data() as Measurement);
+      data.push(r.data() as Measurement);
     });
 
-    return state.bloodSugarList;
+    return data;
   });
 
   return (
@@ -59,7 +67,6 @@ export default component$(() => {
         onResolved={(repos: Measurement[]) => {
           return (
             <div>
-              <form>
                 <div style="float:left;margin-right:10px; margin-bottom: 20px">
                   <label style="font-size: 12px" for="bslevel">
                     Blood sugar level
@@ -93,7 +100,6 @@ export default component$(() => {
                     Submit
                   </button>
                 </div>
-              </form>
               <table id="bslevel" style={{ width: 700 }}>
                 <thead>
                   <tr>
@@ -106,7 +112,9 @@ export default component$(() => {
                     return (
                       <tr>
                         <td>{repo.value}</td>
-                        <td>{new Date(repo.mDate).toString()}</td>
+                        <td>
+                          {new Date(repo.mDate).toISOString().substring(0, 10)}
+                        </td>
                       </tr>
                     );
                   })}
