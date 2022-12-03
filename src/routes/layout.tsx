@@ -36,6 +36,9 @@ export default component$(() => {
                 <li>
                   <Link href="/blood-sugar">Blood Sugar</Link>
                 </li>
+                <li>
+                  <Link href="/appointment">Appointments</Link>
+                </li>
               </ul>
             </div>
 

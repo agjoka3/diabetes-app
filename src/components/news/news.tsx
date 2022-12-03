@@ -33,7 +33,7 @@ export default component$(() => {
   });
 
   return (
-    <div>
+    <>
       <div class="topnav">
         <input
           style={{ width: "300px" }}
@@ -75,8 +75,6 @@ export default component$(() => {
           }}
         />
       }
-      <p>Add Reminders Here</p>
-      <p>Add Other Modules in Tabs Here</p>
-    </div>
+    </>
   );
 });
