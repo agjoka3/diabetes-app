@@ -10,7 +10,7 @@ export default component$(() => {
     onAuthStateChanged(auth, (user: any) => {
       if (!user) {
         nav.path = "/login";
-      }
+      } 
     });
   });
   return (

@@ -6,6 +6,7 @@ import {
   useStore,
   useStylesScoped$,
   $,
+  useClientEffect$,
 } from "@builder.io/qwik";
 import {
   addDoc,
@@ -13,12 +14,14 @@ import {
   getDocs,
   orderBy,
   query,
+  where,
 } from "firebase/firestore";
-import { db } from "~/firebase";
+import { auth, db } from "~/firebase";
 import { Unit } from "../models/unit.model";
 import { Activity, ActivityRow } from "./activity.model";
 import { Exercise } from "./exercise.model";
 import styles from "./activities.css?inline";
+import { onAuthStateChanged } from "firebase/auth";
 
 export const Activities = component$(() => {
   useStylesScoped$(styles);
@@ -30,6 +33,15 @@ export const Activities = component$(() => {
     exerciseLength: undefined,
     exerciseDate: new Date(),
     submitActivity: 0,
+    user: ''
+  });
+
+  useClientEffect$(() => {
+    onAuthStateChanged(auth, (user: any) => {
+      if (user) {
+          state.user = user.uid;
+      } 
+    });
   });
 
   const handleInputChange = $((event: any) => {
@@ -71,7 +83,7 @@ export const Activities = component$(() => {
         calories: Math.floor(calories).toFixed(2),
         time: state.exerciseLength,
         timeUnitId: "mpxXv1SsnDx334cNs351", // default to min
-        userId: " TUJztX9XaaIsM7EiEZp3", // TODO: set user id,
+        userId: state.user,
         date: state.exerciseDate.valueOf(),
       });
     } catch (err) {
@@ -85,6 +97,8 @@ export const Activities = component$(() => {
     const res = await getDocs(query(colRef, orderBy("date", "desc")));
     const data = [] as ActivityRow[];
     res.forEach((r) => {
+      // TODO: Fix query - composite indexes
+      if ((r.data() as Activity).userId == state.user) {
       const activity = r.data() as Activity;
       const exercise = String(
         state.exercises.find((f) => f.id == activity.exerciseId)?.name
@@ -93,7 +107,8 @@ export const Activities = component$(() => {
         state.units.find((u) => u.id == activity.timeUnitId)?.unit
       );
       data.push({ ...activity, exercise, unit });
-    });
+    } })
+;
     return data;
   });
   // TODO: Add new Activity
