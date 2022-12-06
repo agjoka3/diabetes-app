@@ -6,6 +6,7 @@ import {
   useStore,
   $,
   useStylesScoped$,
+  useClientEffect$,
 } from "@builder.io/qwik";
 import {
   addDoc,
@@ -32,6 +33,7 @@ export const Nutritions = component$(() => {
     meal: undefined,
     date: new Date(),
     submitNutrition: 0,
+    user: "",
   });
 
   const handleInputChange = $((event: any) => {
@@ -44,6 +46,11 @@ export const Nutritions = component$(() => {
         : target.value;
     const name: "selectedFood" | "quantity" | "unit" | "meal" = target.name;
     state[name] = value;
+  });
+
+  useClientEffect$(() => {
+    state.user = String(localStorage.getItem("uid"));
+    state.submitNutrition += 1;
   });
 
   useMount$(async () => {
@@ -75,7 +82,7 @@ export const Nutritions = component$(() => {
         quantity: state.quantity,
         meal: state.meal,
         unitId: state.unit, // default to min
-        userId: "TUJztX9XaaIsM7EiEZp3", // TODO: set user id,
+        userId: state.user,
         date: state.date.valueOf(),
       });
     } catch (err) {
@@ -90,14 +97,17 @@ export const Nutritions = component$(() => {
     const res = await getDocs(query(colRef, orderBy("date", "desc")));
     const data = [] as NutritionRow[];
     res.forEach((r) => {
-      const nutrition = r.data() as Nutrition;
-      const food = String(
-        state.foods.find((f) => f.id == nutrition.foodId)?.name
-      );
-      const unit = String(
-        state.units.find((u) => u.unit == nutrition.unitId)?.unit
-      );
-      data.push({ ...nutrition, food, unit, id: r.id });
+      // TODO: Fix query - composite indexes
+      if ((r.data() as Nutrition).userId == state.user) {
+        const nutrition = r.data() as Nutrition;
+        const food = String(
+          state.foods.find((f) => f.id == nutrition.foodId)?.name
+        );
+        const unit = String(
+          state.units.find((u) => u.unit == nutrition.unitId)?.unit
+        );
+        data.push({ ...nutrition, food, unit, id: r.id });
+      }
     });
     return data;
   });
@@ -234,10 +244,14 @@ export const Nutritions = component$(() => {
                     return (
                       <tr key={repo.id}>
                         <td>{repo.food}</td>
-                        <td>{repo.quantity} {repo.unit}</td>
+                        <td>
+                          {repo.quantity} {repo.unit}
+                        </td>
                         <td>{Math.floor(repo.calories).toFixed(2)} cal</td>
                         <td>{repo.meal}</td>
-                        <td>{new Date(repo.date).toISOString().substring(0, 10)}</td>
+                        <td>
+                          {new Date(repo.date).toISOString().substring(0, 10)}
+                        </td>
                       </tr>
                     );
                   })}

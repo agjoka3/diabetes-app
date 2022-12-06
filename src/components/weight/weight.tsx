@@ -5,6 +5,7 @@ import {
   $,
   useResource$,
   Resource,
+  useClientEffect$,
 } from "@builder.io/qwik";
 import styles from "./weight.css?inline";
 import {
@@ -19,10 +20,17 @@ import { Measurement } from "../models/measurement.model";
 
 export const Weights = component$(() => {
   useStylesScoped$(styles);
+
   const state = useStore({
     weight: 1,
     mDate: new Date().valueOf(),
     submitCount: 0,
+    user: "",
+  });
+
+  useClientEffect$(() => {
+    state.user = String(localStorage.getItem("uid"));
+    state.submitCount += 1;
   });
 
   const handleInputChange = $((event: any) => {
@@ -40,7 +48,7 @@ export const Weights = component$(() => {
       await addDoc(collection(db, "weight"), {
         mDate: state.mDate,
         value: Number(state.weight),
-        userId: "TUJztX9XaaIsM7EiEZp3", // TODO: set user id
+        userId: state.user,
       });
     } catch (err) {
       alert(err);
@@ -55,7 +63,10 @@ export const Weights = component$(() => {
 
     const newData = [] as Measurement[];
     res.forEach((r) => {
-      newData.push({ ...r.data(), id: r.id } as any);
+      // TODO: Fix query - composite indexes
+      if (r.data().userId == state.user) {
+        newData.push({ ...r.data(), id: r.id } as any);
+      }
     });
 
     return newData;

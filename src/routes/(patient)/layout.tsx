@@ -10,7 +10,9 @@ export default component$(() => {
     onAuthStateChanged(auth, (user: any) => {
       if (!user) {
         nav.path = "/login";
-      } 
+      } else {
+        localStorage.setItem("uid", user.uid);
+      }
     });
   });
   return (

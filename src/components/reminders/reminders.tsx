@@ -5,6 +5,7 @@ import {
   $,
   useResource$,
   Resource,
+  useClientEffect$,
 } from "@builder.io/qwik";
 import styles from "./reminders.css?inline";
 import {
@@ -32,6 +33,12 @@ export const Reminders = component$((props: ReminderProps) => {
     info: undefined,
     note: undefined,
     submitCount: 0,
+    user: "",
+  });
+
+  useClientEffect$(() => {
+    state.user = String(localStorage.getItem("uid"));
+    state.submitCount += 1;
   });
 
   const handleInputChange = $((event: any) => {
@@ -51,7 +58,7 @@ export const Reminders = component$((props: ReminderProps) => {
         address: state.address,
         info: state.info,
         note: state.note,
-        userId: "TUJztX9XaaIsM7EiEZp3", // TODO: set user id
+        userId: state.user,
       });
     } catch (err) {
       alert(err);
@@ -77,7 +84,10 @@ export const Reminders = component$((props: ReminderProps) => {
 
     const newData = [] as Reminder[];
     res.forEach((r) => {
-      newData.push({ ...r.data(), id: r.id } as ReminderRow);
+      // TODO: Fix query - composite indexes
+      if ((r.data() as Reminder).userId == state.user) {
+        newData.push({ ...r.data(), id: r.id } as ReminderRow);
+      }
     });
 
     return newData;

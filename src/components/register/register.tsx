@@ -26,11 +26,10 @@ export default component$(() => {
 
   // TODO: Add Validation
 
-  const registerWithEmail = $(async() => {
-      await registerWithEmailAndPassword(state.name, state.email, state.password);
-      nav.path = '/login';
-    }
-  );
+  const registerWithEmail = $(async () => {
+    await registerWithEmailAndPassword(state.name, state.email, state.password);
+    nav.path = "/login";
+  });
 
   return (
     <div className="register">

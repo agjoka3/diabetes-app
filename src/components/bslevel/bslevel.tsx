@@ -5,6 +5,7 @@ import {
   $,
   useResource$,
   Resource,
+  useClientEffect$,
 } from "@builder.io/qwik";
 import styles from "./bslevel.css?inline";
 import {
@@ -23,6 +24,12 @@ export default component$(() => {
     bslevel: undefined,
     mDate: new Date().valueOf(),
     submitLevel: 0,
+    user: "",
+  });
+
+  useClientEffect$(() => {
+    state.user = String(localStorage.getItem("uid"));
+    state.submitLevel += 1;
   });
 
   const handleInputChange = $((event: any) => {
@@ -39,7 +46,7 @@ export default component$(() => {
       await addDoc(collection(db, "bslevel"), {
         mDate: state.mDate,
         value: Number(state.bslevel),
-        userId: "TUJztX9XaaIsM7EiEZp3", // TODO: set user id
+        userId: state.user,
       });
     } catch (err) {
       alert(err);
@@ -52,7 +59,10 @@ export default component$(() => {
     const res = await getDocs(query(colRef, orderBy("mDate", "desc")));
     const data = [] as Measurement[];
     res.forEach((r) => {
-      data.push(r.data() as Measurement);
+      // TODO: Fix query - composite indexes
+      if ((r.data() as Measurement).userId == state.user) {
+        data.push(r.data() as Measurement);
+      }
     });
 
     return data;

@@ -16,12 +16,11 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { auth, db } from "~/firebase";
+import { db } from "~/firebase";
 import { Unit } from "../models/unit.model";
 import { Activity, ActivityRow } from "./activity.model";
 import { Exercise } from "./exercise.model";
 import styles from "./activities.css?inline";
-import { onAuthStateChanged } from "firebase/auth";
 
 export const Activities = component$(() => {
   useStylesScoped$(styles);
@@ -33,15 +32,12 @@ export const Activities = component$(() => {
     exerciseLength: undefined,
     exerciseDate: new Date(),
     submitActivity: 0,
-    user: ''
+    user: "",
   });
 
   useClientEffect$(() => {
-    onAuthStateChanged(auth, (user: any) => {
-      if (user) {
-          state.user = user.uid;
-      } 
-    });
+    state.user = String(localStorage.getItem("uid"));
+    state.submitActivity += 1;
   });
 
   const handleInputChange = $((event: any) => {
@@ -99,16 +95,16 @@ export const Activities = component$(() => {
     res.forEach((r) => {
       // TODO: Fix query - composite indexes
       if ((r.data() as Activity).userId == state.user) {
-      const activity = r.data() as Activity;
-      const exercise = String(
-        state.exercises.find((f) => f.id == activity.exerciseId)?.name
-      );
-      const unit = String(
-        state.units.find((u) => u.id == activity.timeUnitId)?.unit
-      );
-      data.push({ ...activity, exercise, unit });
-    } })
-;
+        const activity = r.data() as Activity;
+        const exercise = String(
+          state.exercises.find((f) => f.id == activity.exerciseId)?.name
+        );
+        const unit = String(
+          state.units.find((u) => u.id == activity.timeUnitId)?.unit
+        );
+        data.push({ ...activity, exercise, unit });
+      }
+    });
     return data;
   });
   // TODO: Add new Activity
