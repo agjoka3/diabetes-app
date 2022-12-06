@@ -34,7 +34,7 @@ export default component$(() => {
 
   return (
     <>
-      <div class="topnav">
+      <div>
         <input
           style={{ width: "300px" }}
           placeholder="Search news here"
@@ -54,7 +54,7 @@ export default component$(() => {
             return (
               <div
                 style={{
-                  height: "200px",
+                  height: "220px",
                   overflow: "scroll",
                   overflowX: "hidden",
                   paddingTop: "20px",

@@ -81,7 +81,7 @@ export const Reminders = component$((props: ReminderProps) => {
   });
 
   return (
-    <>
+    <div>
     {!props.showOnlyFutureReminder && <div>
       <div style="float:left;margin-right:10px; margin-bottom: 20px">
         <label style="font-size: 12px" for="info">
@@ -150,9 +150,10 @@ export const Reminders = component$((props: ReminderProps) => {
         onPending={() => <>Loading...</>}
         onRejected={(error) => <>Error: {error.message}</>}
         onResolved={(repos: ReminderRow[]) => {
+          const maxHeight = props.showOnlyFutureReminder ? '100px' : '250px'
           return (
-            <div style={{ maxHeight: "250px", overflow: "scroll" }}>
-             <ol>
+            <div style={{ maxHeight, overflow: 'scroll'}}>
+             <ol style= {{ margin: '5px', padding: '5px'}}>
               {repos.map(repo => {
                 const opacity = repo.date >= new Date().valueOf() ? 1 : 0.5;
                 return <>
@@ -169,6 +170,6 @@ export const Reminders = component$((props: ReminderProps) => {
           );
         }}
       />
-    </>
+    </div>
   );
 });

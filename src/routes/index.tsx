@@ -17,7 +17,7 @@ export default component$(() => {
     <div>
       <h3>Welcome to Dashboard!</h3>
       <News></News>
-      <p>Reminders</p>
+      <h4 style={{ margin: '5px'}}>Reminders</h4>
       <Reminders displayAddReminder={false} limitReminders={5} showOnlyFutureReminder={true}></Reminders>
     </div>
   );
