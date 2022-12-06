@@ -39,7 +39,6 @@
     "node-fetch": "3.2.10",
     "nodemon": "^2.0.20",
     "prettier": "2.7.1",
-    "styled-vanilla-extract": "^0.4.5",
     "typescript": "4.8.4",
     "vite": "3.2.1",
     "vite-tsconfig-paths": "3.5.0"
