@@ -6,19 +6,23 @@ import { Reminders } from "~/components/reminders/reminders";
 import { auth } from "~/firebase";
 
 export default component$(() => {
-  const nav = useNavigate();
+  /*   const nav = useNavigate();
   onAuthStateChanged(auth, ((user) => {
     if (!user) {
         nav.path = '/login'
     }
-  })); 
-  
+  }));  */
+
   return (
     <div>
       <h3>Welcome to Dashboard!</h3>
       <News></News>
-      <h4 style={{ margin: '5px'}}>Reminders</h4>
-      <Reminders displayAddReminder={false} limitReminders={5} showOnlyFutureReminder={true}></Reminders>
+      <h4 style={{ margin: "5px" }}>Reminders</h4>
+      <Reminders
+        displayAddReminder={false}
+        limitReminders={5}
+        showOnlyFutureReminder={true}
+      ></Reminders>
     </div>
   );
 });

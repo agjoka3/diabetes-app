@@ -7,14 +7,14 @@ export default component$(() => {
 
   const logUserOut = $(() => {
     logout();
-  })
+  });
 
   return (
-    <header> 
+    <header>
       <h3>Welcome to Diabetes App!</h3>
 
       <button
-        style={{ height: "25px", marginTop:  "20px", marginLeft: "350px" }}
+        style={{ height: "25px", marginTop: "20px", marginLeft: "350px" }}
         onClick$={logUserOut}
       >
         Log out

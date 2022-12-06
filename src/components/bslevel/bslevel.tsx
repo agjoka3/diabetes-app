@@ -22,7 +22,7 @@ export default component$(() => {
   const state = useStore({
     bslevel: undefined,
     mDate: new Date().valueOf(),
-    submitLevel: 0
+    submitLevel: 0,
   });
 
   const handleInputChange = $((event: any) => {
@@ -46,7 +46,7 @@ export default component$(() => {
     }
   });
 
-  const resource: any = useResource$(async ( {track} ) => {
+  const resource: any = useResource$(async ({ track }) => {
     track(() => state.submitLevel);
     const colRef = collection(db, "bslevel");
     const res = await getDocs(query(colRef, orderBy("mDate", "desc")));
@@ -67,6 +67,7 @@ export default component$(() => {
         onResolved={(repos: Measurement[]) => {
           return (
             <div>
+              <form preventdefault:submit>
                 <div style="float:left;margin-right:10px; margin-bottom: 20px">
                   <label style="font-size: 12px" for="bslevel">
                     Blood sugar level
@@ -100,6 +101,7 @@ export default component$(() => {
                     Submit
                   </button>
                 </div>
+              </form>
               <table id="bslevel" style={{ width: 700 }}>
                 <thead>
                   <tr>

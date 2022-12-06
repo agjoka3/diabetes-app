@@ -5,13 +5,13 @@ import Bslevel from "~/components/bslevel/bslevel";
 import { auth } from "~/firebase";
 
 export default component$(() => {
-
+  /* 
   const nav = useNavigate();
   onAuthStateChanged(auth, ((user) => {
     if (!user) {
         nav.path = '/login'
     }
-  })); 
+  }));  */
   return (
     <div>
       <h3>Welcome to Blood Sugar Module!</h3>

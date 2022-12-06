@@ -79,7 +79,7 @@ export const Activities = component$(() => {
     }
   });
 
-  const activityResource: any = useResource$(async ( {track} ) => {
+  const activityResource: any = useResource$(async ({ track }) => {
     track(() => state.submitActivity);
     const colRef = collection(db, "activity");
     const res = await getDocs(query(colRef, orderBy("date", "desc")));
@@ -106,7 +106,7 @@ export const Activities = component$(() => {
         onResolved={() => {
           return (
             <>
-              <div style="float:left;margin-right:20px; margin-bottom: 20px">
+              <div style="float:left;margin-right:20px; margin-bottom: 10px">
                 <label style="font-size: 12px" for="exercise">
                   Type
                 </label>
@@ -148,10 +148,18 @@ export const Activities = component$(() => {
                   onChange$={handleInputChange}
                 />
               </div>
-              <div style="float: right, border: 1px solid black; width: 30px">
+              <div style="float: right; margin-right:15px; margin-top: 7px; width: 50px">
                 <button
                   onClick$={submitActivity}
-                  style={"background: white;  border: none;"}
+                  style={{
+                    "background-color": "#04AA6D",
+                    border: "none",
+                    color: "white",
+                    padding: "4px 8px",
+                    "text-decoration": "none",
+                    margin: "4px 2px",
+                    cursor: "pointer",
+                  }}
                 >
                   Submit
                 </button>
@@ -166,7 +174,14 @@ export const Activities = component$(() => {
         onRejected={(error) => <>Error: {error.message}</>}
         onResolved={(repos: ActivityRow[]) => {
           return (
-            <div style={{ maxHeight: "250px", overflow: "scroll" }}>
+            <div
+              style={{
+                maxHeight: "250px",
+                overflow: "scroll",
+                clear: "both",
+                marginTop: "20px",
+              }}
+            >
               <table id="acitivity" style={{ width: 700 }}>
                 <thead>
                   <tr>

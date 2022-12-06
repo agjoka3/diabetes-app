@@ -5,13 +5,13 @@ import { Weights } from "~/components/weight/weight";
 import { auth } from "~/firebase";
 
 export default component$(() => {
-  const nav = useNavigate();
+  /*    const nav = useNavigate();
   onAuthStateChanged(auth, ((user) => {
     if (!user) {
         nav.path = '/login'
     }
-  })); 
-  
+  }));   */
+
   return (
     <div>
       <h3>Welcome to Weight Module!</h3>

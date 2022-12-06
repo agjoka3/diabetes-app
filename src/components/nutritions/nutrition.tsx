@@ -31,7 +31,7 @@ export const Nutritions = component$(() => {
     unit: undefined,
     meal: undefined,
     date: new Date(),
-    submitNutrition: 0
+    submitNutrition: 0,
   });
 
   const handleInputChange = $((event: any) => {
@@ -83,7 +83,7 @@ export const Nutritions = component$(() => {
     }
   });
 
-  const nutritionResource: any = useResource$(async ({track}) => {
+  const nutritionResource: any = useResource$(async ({ track }) => {
     track(() => state.submitNutrition);
 
     const colRef = collection(db, "nutrition");
@@ -97,9 +97,9 @@ export const Nutritions = component$(() => {
       const unit = String(
         state.units.find((u) => u.unit == nutrition.unitId)?.unit
       );
-      data.push({ ...nutrition, food, unit, id: r.id  });
+      data.push({ ...nutrition, food, unit, id: r.id });
     });
-    return data
+    return data;
   });
   // TODO: Add new Food
   return (
@@ -198,7 +198,7 @@ export const Nutritions = component$(() => {
                   Submit
                 </button>
               </div>
-              </>
+            </>
           );
         }}
       />

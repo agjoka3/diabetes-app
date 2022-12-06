@@ -5,13 +5,13 @@ import { Nutritions } from "~/components/nutritions/nutrition";
 import { auth } from "~/firebase";
 
 export default component$(() => {
-  const nav = useNavigate();
+  /*   const nav = useNavigate();
   onAuthStateChanged(auth, ((user) => {
     if (!user) {
         nav.path = '/login'
     }
-  })); 
-  
+  }));  */
+
   return (
     <div>
       <h3>Welcome to Nutrition!</h3>

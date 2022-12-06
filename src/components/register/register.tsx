@@ -31,33 +31,33 @@ export default component$(() => {
 
   return (
     <div className="register">
-      <div className="register__container">
+      <div class="register__container">
         <input
           type="text"
-          className="register__textBox"
+          class="register__textBox"
           value={state.name}
           onChange$={(e) => setName(e.target.value)}
           placeholder="Full Name"
         />
         <input
           type="text"
-          className="register__textBox"
+          class="register__textBox"
           value={state.email}
           onChange$={(e) => setEmail(e.target.value)}
           placeholder="E-mail Address"
         />
         <input
           type="password"
-          className="register__textBox"
+          class="register__textBox"
           value={state.password}
           onChange$={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
-        <button className="register__btn" onClick$={() => registerWithEmail}>
+        <button class="register__btn" onClick$={() => registerWithEmail}>
           Register
         </button>
         <button
-          className="register__btn register__google"
+          class="register__btn register__google"
           onClick$={$(signInWithGoogle)}
         >
           Register with Google

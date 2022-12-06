@@ -21,35 +21,32 @@ export default component$(() => {
 
   const authWithEmail = $(async () => {
     await logInWithEmailAndPassword(state.email, state.password);
-    nav.path = '/activity';
+    nav.path = "/activity";
   });
 
   const googleSignIn = $(() => signInWithGoogle());
 
   return (
-    <div className="login">
-      <div className="login__container">
+    <div class="login">
+      <div class="login__container">
         <input
           type="text"
-          className="login__textBox"
+          class="login__textBox"
           value={state.email}
           onChange$={(e) => setEmail(e.target.value)}
           placeholder="E-mail Address"
         />
         <input
           type="password"
-          className="login__textBox"
+          class="login__textBox"
           value={state.password}
           onChange$={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
-        <button className="login__btn" type="submit" onClick$={authWithEmail}>
+        <button class="login__btn" type="submit" onClick$={authWithEmail}>
           Login
         </button>
-        <button
-          className="login__btn login__google"
-          onClick$={googleSignIn}
-        >
+        <button class="login__btn login__google" onClick$={googleSignIn}>
           Login with Google
         </button>
         {/*         <div> TODO: Implement later
