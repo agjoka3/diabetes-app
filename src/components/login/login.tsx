@@ -1,10 +1,11 @@
 import { component$, useStore, useStylesScoped$, $ } from "@builder.io/qwik";
 import styles from "./login.css?inline";
-import { Link } from "@builder.io/qwik-city";
+import { Link, useNavigate } from "@builder.io/qwik-city";
 import { logInWithEmailAndPassword, signInWithGoogle } from "~/firebase";
 
 export default component$(() => {
   useStylesScoped$(styles);
+  const nav = useNavigate();
 
   const state = useStore({
     email: "",
@@ -20,6 +21,7 @@ export default component$(() => {
 
   const authWithEmail = $(async () => {
     await logInWithEmailAndPassword(state.email, state.password);
+    nav.path = '/activity';
   });
 
   const googleSignIn = $(() => signInWithGoogle());
@@ -41,12 +43,12 @@ export default component$(() => {
           onChange$={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
-        <button className="login__btn" onClick$={() => authWithEmail}>
+        <button className="login__btn" type="submit" onClick$={authWithEmail}>
           Login
         </button>
         <button
           className="login__btn login__google"
-          onClick$={() => googleSignIn}
+          onClick$={googleSignIn}
         >
           Login with Google
         </button>
