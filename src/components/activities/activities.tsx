@@ -68,7 +68,7 @@ export const Activities = component$(() => {
         Number(exerciseCalories?.calories);
       await addDoc(collection(db, "activity"), {
         exerciseId: state.exercise,
-        calories,
+        calories: Math.floor(calories).toFixed(2),
         time: state.exerciseLength,
         timeUnitId: "mpxXv1SsnDx334cNs351", // default to min
         userId: " TUJztX9XaaIsM7EiEZp3", // TODO: set user id,
@@ -199,7 +199,7 @@ export const Activities = component$(() => {
                         <td>
                           {repo.time} {repo.unit}
                         </td>
-                        <td>{repo.calories}</td>
+                        <td>{Math.floor(repo.calories).toFixed(2)}</td>
                         <td>
                           {new Date(repo.date).toISOString().substring(0, 10)}
                         </td>

@@ -71,7 +71,7 @@ export const Nutritions = component$(() => {
 
       await addDoc(collection(db, "nutrition"), {
         foodId: state.selectedFood,
-        calories,
+        calories: Math.floor(calories).toFixed(2),
         quantity: state.quantity,
         meal: state.meal,
         unitId: state.unit, // default to min
@@ -217,16 +217,16 @@ export const Nutritions = component$(() => {
         onResolved={(repos: NutritionRow[]) => {
           return (
             <div
-              style={{ maxHeight: "190px", clear: "both", overflow: "scroll" }}
+              style={{ maxHeight: "300px", clear: "both", overflow: "scroll" }}
             >
               <table id="nutritions" style={{ width: 700 }}>
                 <thead>
                   <tr>
                     <th style={{ width: 100 }}>Food</th>
                     <th style={{ width: 100 }}>Quantity</th>
-                    <th>Unit</th>
-                    <th>Calories</th>
+                    <th style={{ width: 100 }}>Calories</th>
                     <th>Meal</th>
+                    <th>Date</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -234,10 +234,10 @@ export const Nutritions = component$(() => {
                     return (
                       <tr key={repo.id}>
                         <td>{repo.food}</td>
-                        <td>{repo.quantity}</td>
-                        <td>{repo.unit}</td>
-                        <td>{repo.calories}</td>
+                        <td>{repo.quantity} {repo.unit}</td>
+                        <td>{Math.floor(repo.calories).toFixed(2)} cal</td>
                         <td>{repo.meal}</td>
+                        <td>{new Date(repo.date).toISOString().substring(0, 10)}</td>
                       </tr>
                     );
                   })}
