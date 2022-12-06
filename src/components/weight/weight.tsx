@@ -88,11 +88,19 @@ export const Weights = component$(() => {
           onChange$={handleInputChange}
         />
       </div>
-      <div style="float: rigth, border: 1px solid black; width: 30px">
+      <div style="float: right; margin-right:15px; margin-top: 7px; width: 50px">
         <button
           id="submitBtn"
           onClick$={submitWeight}
-          style={"background: white;  border: none;"}
+          style={{
+            "background-color": "#04AA6D",
+            border: "none",
+            color: "white",
+            padding: "4px 8px",
+            "text-decoration": "none",
+            margin: "4px 2px",
+            cursor: "pointer",
+          }}
           type="submit"
         >
           Submit
@@ -104,7 +112,9 @@ export const Weights = component$(() => {
         onRejected={(error) => <>Error: {error.message}</>}
         onResolved={(repos: Measurement[]) => {
           return (
-            <div style={{ maxHeight: "250px", overflow: "scroll" }}>
+            <div
+              style={{ maxHeight: "250px", overflow: "scroll", clear: "both" }}
+            >
               <table id="weight" style={{ width: 700 }}>
                 <thead>
                   <tr>

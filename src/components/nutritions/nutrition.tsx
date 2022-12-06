@@ -116,7 +116,7 @@ export const Nutritions = component$(() => {
                   Food
                 </label>
                 <select
-                  style="width: 100px;"
+                  style="width: 80px;"
                   name="selectedFood"
                   id="selectedFood"
                   value={state.selectedFood}
@@ -133,7 +133,7 @@ export const Nutritions = component$(() => {
                   Quantity
                 </label>
                 <input
-                  style="width: 50px"
+                  style="width: 40px"
                   type="number"
                   id="quantity"
                   value={state.quantity}
@@ -146,7 +146,7 @@ export const Nutritions = component$(() => {
                   Unit
                 </label>
                 <select
-                  style="width: 100px;"
+                  style="width: 80px;"
                   name="unit"
                   id="unit"
                   value={state.unit}
@@ -189,11 +189,19 @@ export const Nutritions = component$(() => {
                   })}
                 </select>
               </div>
-              <div style="float: rigth, border: 1px solid black; width: 30px">
+              <div style="float: right; margin-right:15px; margin-top: 9px; width: 50px">
                 <button
                   onClick$={submitNutrition}
                   type="submit"
-                  style={"background: white;  border: none;"}
+                  style={{
+                    "background-color": "#04AA6D",
+                    border: "none",
+                    color: "white",
+                    padding: "4px 8px",
+                    "text-decoration": "none",
+                    margin: "4px 2px",
+                    cursor: "pointer",
+                  }}
                 >
                   Submit
                 </button>
@@ -208,7 +216,9 @@ export const Nutritions = component$(() => {
         onRejected={(error) => <>Error: {error.message}</>}
         onResolved={(repos: NutritionRow[]) => {
           return (
-            <div style={{ maxHeight: "190px", overflow: "scroll" }}>
+            <div
+              style={{ maxHeight: "190px", clear: "both", overflow: "scroll" }}
+            >
               <table id="nutritions" style={{ width: 700 }}>
                 <thead>
                   <tr>

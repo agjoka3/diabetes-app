@@ -8,7 +8,7 @@ export default component$(() => {
       <main>
         <section>
           <div style={{ height: "500px" }}>
-              <Slot />
+            <Slot />
           </div>
         </section>
       </main>

@@ -4,7 +4,6 @@ import News from "~/components/news/news";
 import { Reminders } from "~/components/reminders/reminders";
 
 export default component$(() => {
-
   return (
     <div>
       <h3>Welcome to Dashboard!</h3>

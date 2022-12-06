@@ -86,7 +86,7 @@ export const Reminders = component$((props: ReminderProps) => {
   return (
     <div>
       {!props.showOnlyFutureReminder && (
-        <div>
+        <div style="margin-top: 20px">
           <div style="float:left;margin-right:10px; margin-bottom: 20px">
             <label style="font-size: 12px" for="info">
               Info
@@ -138,11 +138,19 @@ export const Reminders = component$((props: ReminderProps) => {
               onChange$={handleInputChange}
             />
           </div>
-          <div style="float: rigth, border: 1px solid black; width: 30px">
+          <div style="float: right; margin-right:15px; margin-top: 7px; width: 50px">
             <button
               id="submitBtn"
               onClick$={submitWeight}
-              style={"background: white;  border: none;"}
+              style={{
+                "background-color": "#04AA6D",
+                border: "none",
+                color: "white",
+                padding: "4px 8px",
+                "text-decoration": "none",
+                margin: "4px 2px",
+                cursor: "pointer",
+              }}
               type="submit"
             >
               Submit
@@ -157,10 +165,13 @@ export const Reminders = component$((props: ReminderProps) => {
         onResolved={(repos: ReminderRow[]) => {
           const maxHeight = props.showOnlyFutureReminder ? "100px" : "300px";
           return (
-            <div style={{ maxHeight, overflow: "scroll" }}>
+            <div style={{ maxHeight, overflow: "scroll", clear: "both" }}>
               <ol style={{ margin: "5px", padding: "5px" }}>
                 {repos.map((repo) => {
-                  const opacity = repo.date >= new Date().valueOf() ? 1 : 0.5;
+                  const opacity =
+                    repo.date >= new Date().setUTCHours(0, 0, 0, 0).valueOf()
+                      ? 1
+                      : 0.5;
                   return (
                     <>
                       <li style={{ opacity: opacity }}>

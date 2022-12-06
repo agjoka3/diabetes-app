@@ -93,10 +93,18 @@ export default component$(() => {
                     onChange$={handleInputChange}
                   />
                 </div>
-                <div style="float: rigth, border: 1px solid black; width: 30px">
+                <div style="float: right; margin-right:15px; margin-top: 7px; width: 50px">
                   <button
                     onClick$={submit}
-                    style={"background: white;  border: none;"}
+                    style={{
+                      "background-color": "#04AA6D",
+                      border: "none",
+                      color: "white",
+                      padding: "4px 8px",
+                      "text-decoration": "none",
+                      margin: "4px 2px",
+                      cursor: "pointer",
+                    }}
                   >
                     Submit
                   </button>

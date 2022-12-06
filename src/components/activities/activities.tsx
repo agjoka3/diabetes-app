@@ -29,7 +29,7 @@ export const Activities = component$(() => {
     exercise: undefined,
     exerciseLength: undefined,
     exerciseDate: new Date(),
-    submitActivity: 0
+    submitActivity: 0,
   });
 
   const handleInputChange = $((event: any) => {
