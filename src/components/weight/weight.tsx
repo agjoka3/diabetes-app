@@ -22,7 +22,7 @@ export const Weights = component$(() => {
   useStylesScoped$(styles);
 
   const state = useStore({
-    weight: 1,
+    weight: undefined,
     mDate: new Date().valueOf(),
     submitCount: 0,
     user: "",
