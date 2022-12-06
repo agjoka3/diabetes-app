@@ -21,10 +21,13 @@ export default component$(() => {
 
   const authWithEmail = $(async () => {
     await logInWithEmailAndPassword(state.email, state.password);
-    nav.path = "/activity";
+    nav.path = "/";
   });
 
-  const googleSignIn = $(() => signInWithGoogle());
+  const authWithGoogle = $(async () => {
+    await signInWithGoogle();
+    nav.path = "/";
+  });
 
   return (
     <div class="login">
@@ -46,12 +49,9 @@ export default component$(() => {
         <button class="login__btn" type="submit" onClick$={authWithEmail}>
           Login
         </button>
-        <button class="login__btn login__google" onClick$={googleSignIn}>
+        <button class="login__btn login__google" onClick$={authWithGoogle}>
           Login with Google
         </button>
-        {/*         <div> TODO: Implement later
-          <Link href="/reset">Forgot Password</Link>
-        </div> */}
         <div>
           Don't have an account? <Link href="/register">Register</Link> now.
         </div>

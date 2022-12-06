@@ -1,10 +1,11 @@
 import { component$, useStore, useStylesScoped$, $ } from "@builder.io/qwik";
 import styles from "./register.css?inline";
-import { Link } from "@builder.io/qwik-city";
+import { Link, useNavigate } from "@builder.io/qwik-city";
 import { registerWithEmailAndPassword, signInWithGoogle } from "~/firebase";
 
 export default component$(() => {
   useStylesScoped$(styles);
+  const nav = useNavigate();
 
   const state = useStore({
     email: "",
@@ -25,8 +26,14 @@ export default component$(() => {
 
   // TODO: Add Validation
 
-  const registerWithEmail = $(() =>
-    registerWithEmailAndPassword(state.name, state.email, state.password)
+  const registerWithEmail = $(async() => {
+    try {
+      await registerWithEmailAndPassword(state.name, state.email, state.password);
+      nav.path = '/register';
+    } catch (e) {
+
+    }
+    }
   );
 
   return (
@@ -53,14 +60,8 @@ export default component$(() => {
           onChange$={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
-        <button class="register__btn" onClick$={() => registerWithEmail}>
+        <button class="register__btn" onClick$={registerWithEmail}>
           Register
-        </button>
-        <button
-          class="register__btn register__google"
-          onClick$={$(signInWithGoogle)}
-        >
-          Register with Google
         </button>
         <div>
           Already have an account? <Link href="/login">Login</Link> now.
