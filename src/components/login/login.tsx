@@ -49,9 +49,6 @@ export default component$(() => {
         <button class="login__btn" type="submit" onClick$={authWithEmail}>
           Login
         </button>
-        <button class="login__btn login__google" onClick$={authWithGoogle}>
-          Login with Google
-        </button>
         <div>
           Don't have an account? <Link href="/register">Register</Link> now.
         </div>
