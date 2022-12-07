@@ -21,12 +21,7 @@ export default component$(() => {
 
   const authWithEmail = $(async () => {
     await logInWithEmailAndPassword(state.email, state.password);
-    nav.path = "/";
-  });
-
-  const authWithGoogle = $(async () => {
-    await signInWithGoogle();
-    nav.path = "/";
+    nav.path = "/nutrition";
   });
 
   return (
