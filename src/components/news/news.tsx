@@ -17,7 +17,15 @@ export default component$(() => {
 
   const searchChanged = $(() => {
     return fetch(
-      `https://newsapi.org/v2/everything?q='diabetes ${state.searchValue}'&from=2022-11-09&to=2022-11-09&sortBy=popularity&apiKey=${NEWS_API_KEY}`
+      `https://api.newscatcherapi.com/v2/search?q=diabetes`,
+      {
+        mode: 'cors', 
+        headers: {
+          'x-api-key': NEWS_API_KEY,
+          'User-Agent' : 'diabetes-app',
+          'Accept': '*/*',
+        },
+      }
     )
       .then((res) => res.json())
       .then((res: { articles: NewsModel[] }) => {
@@ -63,8 +71,8 @@ export default component$(() => {
                 {newsList?.map((news) => {
                   return (
                     <li>
-                      [{news.source.name}] {news.title}
-                      <a target="_blank" href={news.url}>
+                      [{news.author}] {news.title}
+                      <a target="_blank" href={news.link}>
                         [details]
                       </a>
                     </li>
